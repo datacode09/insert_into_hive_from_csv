@@ -46,25 +46,7 @@ hive -e "${ddl}"
 
 # Load data into the table
 load_data_ddl=$(cat <<EOF
-SET mapred.map.tasks=${num_mappers};
-INSERT INTO ${database}.${table} PARTITION (${partition_column})
-SELECT
-  id,
-  name,
-  age,
-  email,
-  address,
-  salary,
-  CAST(FROM_UNIXTIME(UNIX_TIMESTAMP(${partition_column}, '${partition_format}')) AS TIMESTAMP) AS ${partition_column}
-FROM
-  (
-    SELECT
-      TRANSFORM (split(line, '${delimiter}'))
-      USING 'python /path/to/script.py'
-      AS (id INT, name STRING, age INT, email STRING, address STRUCT<street:STRING, city:STRING, state:STRING, zip:INT>, salary DOUBLE, ${partition_column} STRING)
-    FROM
-      (SELECT get_file_content('${csv_file}') AS line) t1
-  ) t2;
+#####{}
 EOF
 )
 
